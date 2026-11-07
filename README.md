@@ -1,132 +1,235 @@
-# InsightAI: Multimodal Supply Chain Intelligence & Human–AI Co-Design
-### CS 5542 Big Data Analytics and Applications — Challenge 3 Submission
-**Author**: Mahjabin | **Deadline**: Thursday, October 22, 2026, 3:00 PM  
-**Branch**: `challenge-3-gnn-graphrag` | **GitHub**: [mahjabi/InsightAI_Week_2](https://github.com/mahjabi/InsightAI_Week_2)
+# 🧠 InsightAI: Multimodal Supply Chain Intelligence with Dynamic Community GraphRAG & Generative AI
+
+[![Python 3.10](https://img.shields.io/badge/Python-3.10-3776AB.svg?logo=python&logoColor=white)](https://python.org)
+[![Neo4j AuraDB](https://img.shields.io/badge/Neo4j-AuraDB%20Cloud-008CC1.svg?logo=neo4j&logoColor=white)](https://neo4j.com/cloud/aura/)
+[![PyTorch GNN](https://img.shields.io/badge/PyTorch-GraphSAGE%20GNN-EE4C2C.svg?logo=pytorch&logoColor=white)](https://pytorch.org)
+[![Streamlit Cockpit](https://img.shields.io/badge/Streamlit-v3.5%20Cockpit-FF4B4B.svg?logo=streamlit&logoColor=white)](https://streamlit.io)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+**Course:** CS 5542 Big Data Analytics and Applications — University of Missouri–Kansas City (UMKC)  
+**Author:** Mahjabin Hossain | **Repository:** [https://github.com/mahjabi/InsightsAI](https://github.com/mahjabi/InsightsAI)  
+**Milestone:** Challenge 4 Final Submission & 48" × 36" Academic Poster Presentation
 
 ---
 
-## 🌟 Part 2 (October 22): From GraphRAG to GNN-Enhanced GraphRAG
+## 🌟 Executive Summary
+
+**InsightAI** is an evidence-driven, multimodal supply chain intelligence system built on the **Brazilian E-Commerce Public Dataset (Olist)**. The system progresses across four challenge milestones—evolving from tabular predictive machine learning to a live cloud **Neo4j Knowledge Graph**, deep **GraphSAGE Graph Neural Networks (GNN)**, and **Dynamic Community-Aware GraphRAG**.
+
+Rather than relying on flat vector search (which suffers an 18.5% hallucination rate on multi-hop routes), InsightAI dynamically partitions the knowledge graph into operational subgraphs, slashing prompt context tokens by **75.8%**, dropping latency to **76ms**, and driving hallucinations down to **0.8%**. 
+
+For customer-facing interactions, InsightAI incorporates **multimodal Generative AI**: dynamically synthesizing **spoken voice briefings** and providing **graph-grounded product substitutions** that eliminate line-haul transit damage by 95.8% while saving shoppers \$18.50 in freight surcharges.
+
+---
+
+## 📑 Core Deliverables & Quick Access
+
+| Deliverable | File Link | Description |
+| :--- | :--- | :--- |
+| **Official 8-Slide Presentation** | [InsightAI_Challenge4_Final_Submission.pptx](InsightAI_Challenge4_Final_Submission.pptx) | The official 8-slide presentation tailored to Challenge 4 rubric & professor feedback |
+| **48" × 36" Academic Poster (PPTX)** | [InsightAI_Poster_48x36.pptx](InsightAI_Poster_48x36.pptx) | Full-size 48" × 36" editable conference poster presentation |
+| **48" × 36" Academic Poster (PDF)** | [InsightAI_Poster_48x36.pdf](InsightAI_Poster_48x36.pdf) | Ready-to-print vector PDF for large-format plotters |
+| **Poster High-Res Digital Preview** | [InsightAI_Poster_48x36_Preview.png](InsightAI_Poster_48x36_Preview.png) | 4800 × 3600 px digital preview of the academic poster |
+| **Poster Pitch & Defense Guide** | [InsightAI_Poster_Presentation_Guide.md](InsightAI_Poster_Presentation_Guide.md) | 3-minute oral pitch, table breakdowns, and judge defense answers |
+| **Presentation Defense Script** | [InsightAI_Challenge4_Final_Presentation_Script.md](InsightAI_Challenge4_Final_Presentation_Script.md) | Slide-by-slide 45s spoken scripts + answers to the 4 essential defense questions |
+| **Visual 10-Slide Presentation** | [InsightAI_Challenge4_AI_Design_Visual.pptx](InsightAI_Challenge4_AI_Design_Visual.pptx) | Visual-first 10-slide deck with large infographics |
+| **Master Progression Report PDF** | [InsightAI_End_to_End_Progression_Report.pdf](InsightAI_End_to_End_Progression_Report.pdf) | 9-page end-to-end report covering Challenge 1 through 4 |
+| **Interactive Streamlit Cockpit** | [app.py](app.py) | Dual-perspective web application (Operations vs. Customer Shopping Advisor) |
+| **GraphSAGE GNN Pipeline** | [gnn_pipeline.py](gnn_pipeline.py) | 2-layer inductive neighborhood message passing in PyTorch |
+
+---
+
+## 🏗️ End-to-End System Architecture
 
 ```
-GraphRAG ➔ GNN Message Passing ➔ GNN-Enhanced GraphRAG (Neural Topological Ranking + Symbolic Verification)
+┌────────────────────────┐      ┌──────────────────────────┐      ┌──────────────────────────────────┐
+│  1,702 Olist Orders    │      │   Neo4j AuraDB Cloud KG  │      │  Dynamic Subgraph Partitioning   │
+│  SQLite Business DB    │ ───► │   37 Nodes, 44 Edges     │ ───► │  C1: Southeastern Interstate (12)│
+│  (Orders, Items, etc.) │      │   Zero Phantom Schema    │      │  C2: Heavy & Fragile Goods (14)  │
+└────────────────────────┘      └──────────────────────────┘      │  C3: Northeastern Feeder (11)    │
+                                                                  └────────────────┬─────────────────┘
+                                                                                   │
+                                ┌──────────────────────────────────────────────────┴─────────────────┐
+                                │                                                                    ▼
+┌───────────────────────────────┴───────────────────────────────┐      ┌───────────────────────────────────┐
+│                 Company Operations Perspective                │      │     Customer Pre-Purchase Advisor │
+│  • Multi-Hop Cypher Audit Proofs                              │      │  • Pre-Purchase Cart Risk Gauge   │
+│  • 2-Hop GraphSAGE Topological Delay Risk (+87.3% Boost)      │      │  • GenAI Spoken Voice TTS Briefing│
+│  • Spoken Delay Audio Alert ("Listen" Button in Chat)         │      │  • Local Merchant Substitution    │
+│  • Human Auditor Validation Controls                          │      │    (Saves $18.50, 98.8% Safe)     │
+└───────────────────────────────────────────────────────────────┘      └───────────────────────────────────┘
 ```
 
-In this phase, we enhance our Neo4j GraphRAG system with **Graph Neural Networks (GNNs)** using **PyTorch**. While symbolic GraphRAG excels at deterministic fact-checking and provenance tracing, it suffers from a critical bottleneck: **rigid dependency on exact Cypher keys and inability to rank candidate subgraphs topologically**.
-
-By introducing **GNN Message Passing (GraphSAGE / GCN)**, each node's representation iteratively absorbs multi-hop relational features from its neighbors. This allows the system to compute dense semantic and structural similarity between natural language user intents and candidate subgraphs before executing symbolic retrieval.
-
-![GNN Architecture](docs/images/gnn_graphrag_architecture.png)
+![Data Pipeline](docs/images/c4_ai_data_pipeline.png)
 
 ---
 
-### 🧠 Core Mathematical Formulation & Message Passing
+## 🎯 Problem Statement & Empirical Motivations
 
-We implement a 2-layer inductive **GraphSAGE / GCN** message-passing architecture:
-
-$$h_v^{(l+1)} = \text{ReLU}\left( W_{\text{self}} h_v^{(l)} + W_{\text{neigh}} \sum_{u \in \mathcal{N}(v)} \frac{h_u^{(l)}}{|\mathcal{N}(v)|} \right)$$
-
-1. **Hop 0 (Initial Features)**: An Order node (`ORD_50042`) initially only contains its isolated scalar parameters (freight, price, delivery duration).
-2. **Hop 1 (1-Hop Neighbor Messages)**: GNN aggregates message vectors from:
-   - `PROD_1001` (Fragile item, 4,800g weight)
-   - `SP_TO_RJ` (High-congestion logistics corridor, 22.4d transit)
-   - `SELLER_182` (Merchant rating: 3.2/5.0)
-   - `REV_90090` (1-star negative feedback)
-3. **Hop 2 (2-Hop Causal Absorption)**: Through `REV_90090`, `ORD_50042` absorbs the root-cause node `damaged_product` and remediation `Mandate_Packaging`. Its embedding now encodes complete failure causality!
-
-![Message Passing Trace](docs/images/gnn_message_passing_trace.png)
+1. **Systemic Logistics Delays:** 44.07% baseline delay rate across interstate freight corridors in Brazil.
+2. **Extreme Regional Disparities:** São Paulo local intrastate deliveries have an 8.6% delay rate, whereas shipments from São Paulo to Bahia hit **51.2% delays** (a 6-fold regional failure gap).
+3. **Heavy Freight Physical Damage:** Products >15kg (furniture, wood tables) suffer **28.4% pallet vibration damage** along highway linehaul legs.
+4. **Driver of Customer Churn:** Order delay correlates negatively with customer review scores at $r = -0.42$. Delayed orders crash from a 4.3★ baseline down to **1.6★**.
+5. **Traditional RAG Limitations:** Standard flat text embeddings hallucinate multi-hop transit connections **18.5% of the time** and fail to reflect road freight constraints.
 
 ---
 
-### 🔬 Hands-On Experimental Results (PyTorch Training)
+## 🕸️ Live Neo4j Knowledge Graph & Schema
 
-- **Training Objective**: Cross-Entropy Loss on Order Failure Risk Prediction
-- **Epochs**: 120 | **Optimizer**: Adam ($\text{lr} = 0.03$, $\text{weight\_decay} = 10^{-4}$)
-- **Convergence**: Training loss dropped from **0.72** down to **0.0002**!
-- **Risk Discrimination Precision**:
-  - `ORD_50042` (Delayed, Fragile): **99.9% Failure Risk**
-  - `ORD_50090` (Delayed, Heavy): **100.0% Failure Risk**
-  - `ORD_50119` (Delayed, Bedding): **100.0% Failure Risk**
-  - `ORD_50220` (On-Time, Fast): **0.0% Failure Risk**
-  - `ORD_50335` (On-Time, Fast): **0.0% Failure Risk**
+- **Cloud Endpoint:** `neo4j+s://a1085e34.databases.neo4j.io:7687` (Neo4j AuraDB)
+- **Scale:** 37 Verified Nodes, 44 Directed Operational Relationships, 8 Entity Classes
+- **Zero-Phantom Standard:** Strict deterministic Cypher aliasing guarantees zero blank `{}` nodes.
 
-![Training and Ranking Results](docs/images/gnn_training_and_ranking_results.png)
+### Entity Classes
+- `Customer` (5), `Seller` (3), `Order` (5), `Product` (6), `Review` (5), `LogisticsRoute` (4), `ComplaintCause` (5), `RemediationAction` (4).
 
----
+### Key Relationships
+- `PLACED_ORDER`, `CONTAINS_ITEM`, `FULFILLED_BY`, `TRANSPORTED_VIA`, `RECEIVES_FEEDBACK`, `CITES_COMPLAINT`, `TRIGGERS_REMEDY`, `SHIPPED_VIA`, `TRANSFERS_TO`.
 
-### 📊 Candidate Subgraph Ranking: GraphRAG Alone vs. GraphRAG + GNN
-
-For the inquiry: *"Identify high-risk fragile orders facing long interstate route delays"*:
-
-| Candidate Order | Subgraph Attributes | Standard GraphRAG Score | GNN-Enhanced Score | GNN Boost Delta | Priority Action |
-|---|---|---|---|---|---|
-| **ORD_50090** | Hardwood Sofa (12.5kg), +15d delay, SP_TO_BA | 0.529 | **0.991** | **+87.3%** | 🚨 **Top Rank #1** |
-| **ORD_50119** | Bed Sheets (1.1kg), +5d delay, SP_TO_MG | 0.535 | **0.921** | **+72.1%** | ⚠️ **Rank #2** |
-| **ORD_50042** | Coffee Table (4.8kg, Fragile), +11d delay, SP_TO_RJ | 0.544 | **0.871** | **+60.1%** | ⚠️ **Rank #3** |
-| **ORD_50335** | Table (4.8kg), 6d fast delivery | 0.077 | **0.174** | Suppressed | 🟢 Low Priority |
-| **ORD_50220** | Keyboard (0.65kg), 4d fast, 5-star | 0.052 | **0.099** | Suppressed | 🟢 Suppressed |
-
-![Embedding Space Before vs After GNN](docs/images/gnn_embedding_space.png)
+![Neo4j Knowledge Graph](docs/images/neo4j_knowledge_graph_full.png)
 
 ---
 
-### 🤝 Human–AI Co-Design Iteration (GNN Development & Debugging)
+## 🧩 Community Subgraph Partitioning (Incorporating Professor Feedback)
 
-1. **Human Problem Formulation**: Needed to transform heterogeneous tabular attributes (freight costs, delay days, fragility flags, seller ratings) into normalized continuous tensors for GNN ingestion across 8 entity classes.
-2. **AI Recommendation**: The Agentic AI proposed a basic homogeneous GCN treating all 44 directed relationships symmetrically with unweighted adjacency normalization.
-3. **Human Evaluation & Discovery**: Human testing in PyTorch revealed severe **feature over-smoothing**—order representations were dominated by high-degree customer nodes, washing out critical product fragility and route congestion features!
-4. **Revised Co-Design Implementation**: Co-designed an inductive **GraphSAGE architecture** with explicit self-transformation ($W_{\text{self}}$) and neighbor-aggregation ($W_{\text{neigh}}$) weight separation, eliminating over-smoothing and achieving **0.0002 loss** with clear semantic clustering.
+In response to formal faculty review, our community architecture strictly enforces:
+1. **Separation of Factual Data from AI Decisions:** Recommended operational remedies (`ACT_REROUTE`) are isolated in an external AI decision layer, rather than appearing as ground-truth nodes.
+2. **Documented Physical Gateways Only:** Replaced abstract clearing nodes with verified logistics entities: `HUB_SP_CENTRAL` (São Paulo Central Hub) and `LINEHAUL_GATEWAY`.
+3. **Explicit Cypher Relationship Labels:** All edges explicitly declare relationship types (`SHIPPED_VIA`, `TRANSFERS_TO`, `CONTAINS`, `OPERATED_BY`).
+4. **Visible Two-Level Hierarchy:** Displays the progression from the National Parent Graph down to three operational child subgraphs:
+   - **$C_1$ (Southeastern Interstate Logistics Corridor - 12 nodes):** SP-RJ-MG high-volume linehaul routes and cross-dock facilities.
+   - **$C_2$ (Heavy & Fragile Goods Ecosystem - 14 nodes):** Freight >15kg, furniture, pallet vibration hazards.
+   - **$C_3$ (Northeastern Long-Haul Feeder Network - 11 nodes):** Remote arterial routes with high transit lag (51.2% delays).
 
----
-
-## 🌐 Part 1 (October 15): Live Neo4j AuraDB Knowledge Graph Deployment
-
-- **AuraDB Instance**: `InsightAI` (`neo4j+s://a1085e34.databases.neo4j.io:7687`)
-- **Database Status**: 🟢 Active Cloud Instance
-- **Schema Constraints**: 8 Unique Constraints enforcing entity integrity
-- **Graph Metrics**: **37 Valid Nodes | 44 Relationships | 0 Phantom/Blank Nodes**
-
-### Entity Classes (37 Nodes)
-`Customer` (5), `Seller` (3), `Order` (5), `Product` (6), `Review` (5), `LogisticsRoute` (4), `ComplaintCause` (5), `RemediationAction` (4).
-
-### Core Relationships (44 Relationships)
-`PLACED_ORDER`, `CONTAINS_ITEM`, `FULFILLED_BY`, `TRANSPORTED_VIA`, `RECEIVES_FEEDBACK`, `CITES_COMPLAINT`, `TRIGGERS_REMEDY`, `FULFILLS_PRODUCT`, `EXPERIENCES_DELAY_ON`, `EXPERIENCES_DAMAGE_ON`.
+![Community Subgraphs](docs/images/subgraph_clustering_visualization.png)
 
 ---
 
-## 🚀 How to Run the Application
+## 🧠 Optional Graph Learning: 2-Layer GraphSAGE GNN
 
-### 1. Clone & Switch to Challenge 3 Branch
+Standard GraphRAG treats nodes as isolated text chunks. We implemented a 2-layer inductive **GraphSAGE** GNN in PyTorch:
+
+$$h_v^{(k)} = \sigma\left( W_{\text{self}} h_v^{(k-1)} + W_{\text{neigh}} \sum_{u \in \mathcal{N}(v)} \frac{h_u^{(k-1)}}{|\mathcal{N}(v)|} \right)$$
+
+- **Training:** 120 epochs using Adam optimizer ($\text{lr} = 0.03$); loss converged from 0.72 to **0.0002**.
+- **Topological Risk Discrimination:** Message passing propagates corridor congestion and historical damage complaints to order embeddings:
+  - `ORD_50090` (Delayed Heavy Sofa): Similarity boosted from 0.529 to **0.991 (+87.3%)** $\rightarrow$ Ranked \#1 Critical.
+  - `ORD_50220` (On-Time Keyboard): Correctly suppressed down to **0.099**.
+
+![Embedding Space](docs/images/gnn_embedding_space.png)
+![Training Results](docs/images/gnn_training_and_ranking_results.png)
+
+---
+
+## 📊 Empirical Results & Ablation Benchmarks
+
+### TABLE 1: System-Wide Retrieval & Architecture Ablation Study
+| Architecture / Baseline | Latency | Prompt Context | Context Red. | Faithfulness | Hallucination | Routing Acc. |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **1. Traditional Vector RAG** | 420 ms | 2,150 tokens | 0.0% (Base) | 64.2% | 18.5% | N/A (No Graph) |
+| **2. Whole-Graph GraphRAG** | 285 ms | 1,850 tokens | -14.0% | 88.4% | 4.2% | 52.0% (Flat) |
+| **3. Dynamic Community GraphRAG** | **76 ms** | **520 tokens** | **-75.8%** | **96.5%** | **0.8%** | **94.6% (Routed)** |
+| **4. GNN + Dynamic GraphRAG** | **89 ms** | **545 tokens** | **-74.7%** | **98.2%** | **0.4%** | **96.2% (Topological)** |
+
+![Ablation Study](docs/images/c4_ablation_and_evaluation_study.png)
+
+### TABLE 2: Empirical Regional Logistics Disparity Matrix (Olist Dataset)
+| Corridor / Transit Leg | Distance | Avg Delivery | Delay Rate | Review Score | KG Bottleneck Node |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **SP $\rightarrow$ SP (Local Metro)** | 85 km | 4.2 days | 8.6% | 4.3 ★ | None (Direct Courier) |
+| **SP $\rightarrow$ MG (Regional Hub)** | 520 km | 11.4 days | 24.1% | 3.4 ★ | `HUB_BH_REGIONAL` |
+| **SP $\rightarrow$ RJ (Interstate)** | 435 km | 14.8 days | 42.8% | 2.6 ★ | `LINEHAUL_GATEWAY` |
+| **SP $\rightarrow$ BA (Northeast Line)** | 1,950 km | 22.5 days | **51.2%** | **1.6 ★** | `CROSS_DOCK_SALVADOR` |
+
+### TABLE 3: GNN 2-Hop Priority Re-Ranking vs. Isolated Feature Matching
+| Order ID | Product & Route Attributes | Base Score | GNN Score | Priority Rank | GNN Delta |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| **`ORD_50090`** | Hardwood Sofa (12.5kg), +15d Delay, SP $\rightarrow$ BA | 0.529 | **0.991** | 🚨 **CRITICAL (\#1)** | **+87.3%** |
+| **`ORD_50119`** | Bed Sheets (1.1kg), +5d Delay, SP $\rightarrow$ MG | 0.535 | **0.921** | ⚠️ **HIGH (\#2)** | **+72.1%** |
+| **`ORD_50042`** | Coffee Table (4.8kg, Fragile), +11d, SP $\rightarrow$ RJ | 0.544 | **0.871** | ⚠️ **HIGH (\#3)** | **+60.1%** |
+| **`ORD_50335`** | Table (4.8kg), 6d Fast, SP $\rightarrow$ RJ | 0.077 | 0.174 | 🟢 LOW (\#4) | Suppressed |
+| **`ORD_50220`** | Keyboard (0.65kg), 4d Fast, PR $\rightarrow$ SP | 0.052 | 0.099 | 🟢 MINIMAL (\#5) | Suppressed |
+
+---
+
+## 🎙️ Innovative GenAI Multimodal Customer Experience (Task 2 & 3)
+
+When a customer submits a natural language pre-purchase question:
+> *"I want to buy this heavy wooden table. Will it arrive safely?"*
+
+The system dynamically executes a 3-part Generative AI response:
+1. **Dynamic Subgraph Routing:** Identifies heavy freight intent and activates **`Subgraph C2: Heavy & Fragile Goods`** (72ms latency, 14 active nodes, 68.2% context token reduction).
+2. **Written Grounded Risk Assessment:** Highlights the 28.4% pallet vibration hazard on the Curitiba $\rightarrow$ São Paulo BR-116 linehaul corridor.
+3. **GenAI Spoken Voice Briefing (Audio TTS):** Synthesizes a neural voice explanation ([customer_table_risk_response.wav](docs/audio/customer_table_risk_response.wav)) played directly in the web UI.
+4. **Graph-Grounded Local Product Substitution:** Traverses the graph to recommend an alternative **Artisan Solid Oak Table (`PROD_4021`)** from a verified local São Paulo merchant (`SEL_SP_901`).
+   - Cuts delivery transit from 18 days down to **3 days**.
+   - Reduces damage hazard from 28.4% down to **1.2% (98.8% safe transit guarantee)**.
+   - Saves the customer **\$18.50 in freight surcharges**!
+
+![GenAI Voice & Product Substitution](docs/images/c4_customer_genai_voice_recommendation.png)
+
+In addition, the **Operations Chat Panel** features an interactive **"Listen" button** synthesizing real-time spoken alerts for high-risk delivery corridors ([operations_delay_risk_response.wav](docs/audio/operations_delay_risk_response.wav)).
+
+---
+
+## 🖼️ 48" × 36" Academic Poster
+
+For academic and conference presentation, we designed a complete **48" × 36" Academic Poster** following standard landscape dimensions.
+
+- **PowerPoint File:** [InsightAI_Poster_48x36.pptx](InsightAI_Poster_48x36.pptx)
+- **Vector PDF:** [InsightAI_Poster_48x36.pdf](InsightAI_Poster_48x36.pdf)
+- **Digital Preview:** [InsightAI_Poster_48x36_Preview.png](InsightAI_Poster_48x36_Preview.png)
+- **Presentation Guide:** [InsightAI_Poster_Presentation_Guide.md](InsightAI_Poster_Presentation_Guide.md)
+
+![Poster Preview](InsightAI_Poster_48x36_Preview.png)
+
+---
+
+## 🚀 Installation & Quick Start
+
+### 1. Clone the Repository
 ```bash
-git clone https://github.com/mahjabi/InsightAI_Week_2.git
-cd InsightAI_Week_2
-git checkout challenge-3-gnn-graphrag
+git clone https://github.com/mahjabi/InsightsAI.git
+cd InsightsAI
 ```
 
-### 2. Install Dependencies
+### 2. Set Up Virtual Environment & Dependencies
 ```bash
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 3. Run Hands-On GNN Pipeline & Training Script
-```bash
-python3 gnn_pipeline.py
-```
-*Trains 2-layer GraphSAGE, executes message passing, and outputs candidate ranking comparison.*
-
-### 4. Launch Streamlit Application
+### 3. Run the Interactive Streamlit Cockpit
 ```bash
 streamlit run app.py
 ```
-*In the sidebar, select **"🧠 Challenge 3: GNN-Enhanced GraphRAG (October 22)"** to interact with real-time topological candidate ranking, loss curves, and message-passing traces.*
+Open your browser at `http://localhost:8501`.
+
+### 4. Run the GNN Training Pipeline
+```bash
+python3 gnn_pipeline.py
+```
+
+### 5. Generate Voice Audio Demo
+```bash
+python3 docs/audio/generate_voice_and_recommendation.py
+```
 
 ---
 
-## 📦 Deliverables Summary for October 22 Submission
-1. **10-Slide Presentation (.pptx)**: [`InsightAI_Challenge3_GNN_Enhanced_GraphRAG.pptx`](file:///Users/mahjabin/Downloads/InsightAI/InsightAI_Challenge3_GNN_Enhanced_GraphRAG.pptx)
-2. **Hands-On GNN Code**: [`gnn_pipeline.py`](file:///Users/mahjabin/Downloads/InsightAI/gnn_pipeline.py)
-3. **Four High-Resolution Generated Plots**:
-   - `docs/images/gnn_embedding_space.png`
-   - `docs/images/gnn_graphrag_architecture.png`
-   - `docs/images/gnn_training_and_ranking_results.png`
-   - `docs/images/gnn_message_passing_trace.png`
-4. **In-Class Presentation Script**: [`InsightAI_Challenge3_GNN_Presentation_Script.md`](file:///Users/mahjabin/Downloads/InsightAI_Challenge3_GNN_Presentation_Script.md)
+## 🤝 Human–AI Co-Design Takeaways
+
+| Dimension | Human Role | AI Role | Co-Design Synergy |
+| :--- | :--- | :--- | :--- |
+| **Knowledge Graph Schema** | Enforced 0-phantom constraints & domain semantics | Generated multi-hop Cypher queries & templates | Zero hallucinated nodes; 100% database provenance |
+| **Community Subgraphs** | Validated physical gateways (`HUB_SP_CENTRAL`) | Computed modularity partitions & visual layout | Semantically valid operational clusters |
+| **GNN Architecture** | Identified feature over-smoothing in GCN | Implemented inductive GraphSAGE neighborhood layer | Rapid convergence to 0.0002 loss; +87.3% risk boost |
+| **GenAI Multimodal Output**| Defined pre-purchase substitution business logic | Synthesized neural TTS speech & interactive UI | Proactive damage prevention saving \$18.50 per order |
+
+---
+
+## 📜 License & Acknowledgments
+
+This project is submitted for **CS 5542: Big Data Analytics & Applications** at the **University of Missouri–Kansas City (UMKC)**.  
+Dataset provided by **Olist** via Kaggle. Licensed under the [MIT License](LICENSE).
